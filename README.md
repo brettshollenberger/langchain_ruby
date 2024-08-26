@@ -35,7 +35,39 @@ Langchain::Instrumentation.configure(
     endpoint: "http://127.0.0.1:6006/v1/traces"
 )
 
-Langchain::Ollama.new("qwen2").invoke("Hello world")
+Langchain::LLMs::Ollama.new("qwen2").invoke("Hello world")
+```
+
+# Using Prompts:
+
+```ruby
+require_relative "lib/langchain"
+
+example_prompt = Langchain::Prompts::PromptTemplate.from_template(
+  template: "Input: {input}\nOutput: {output}",
+  input_variables: %w[input output]
+)
+
+few_shot = Langchain::Prompts::FewShotPromptTemplate.new(
+  examples: [
+    { "input" => "What is the capital of France?", "output" => "Paris" },
+    { "input" => "What is 2 + 2?", "output" => "4" }
+  ],
+  example_prompt: example_prompt,
+  prefix: "Here are some examples:",
+  suffix: "Please answer the question based on the examples provided above: {input}",
+  input_variables: example_prompt.input_variables,
+  example_separator: "\n\n"
+)
+
+prompt = few_shot.format(input: "What is the capital of the USA?")
+
+Langchain::Instrumentation.configure(
+  provider: :phoenix,
+  endpoint: "http://127.0.0.1:6006/v1/traces"
+)
+
+Langchain::LLMs::Ollama.new("qwen2").invoke(prompt)
 ```
 
 TODO: Delete this and the text below, and describe your gem
