@@ -1,5 +1,43 @@
 # LangchainRuby
 
+Langchain Ruby differs from LangchainRb in the following ways:
+
+1. Langchain Ruby is at feature parity with Langchain (Python) and Langchain.js
+2. Langchain Ruby wraps the Python library, allowing you to use the complete ecosystem, including observability options like Arize Phoenix, as well as LangGraph, and <what else?>
+3. LangchainRb is a port to the Ruby language, offering better stack tracing, but because Langchain is massive and constantly evolving, it will likely always be more feature limited.
+
+# Setup Arize Phoenix
+
+Arize will provide open source tracing similar to LangSmith. In many environments you can simply run:
+
+```
+docker run -p 6006:6006 -i -t arizephoenix/phoenix
+```
+
+But on Apple Silicon you need to re-build the image first:
+
+```
+git clone https://github.com/Arize-ai/phoenix.git
+cd phoenix
+```
+
+Edit the Dockerfile to select the base image `gcr.io/distroless/python3-debian12:nonroot-arm64`
+
+```
+docker build -t arizephoenix/phoenix .
+```
+
+# Call LLM With Instrumentation:
+
+```ruby
+Langchain::Instrumentation.configure(
+    provider: :phoenix,
+    endpoint: "http://127.0.0.1:6006/v1/traces"
+)
+
+Langchain::Ollama.new("qwen2").invoke("Hello world")
+```
+
 TODO: Delete this and the text below, and describe your gem
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/langchain_ruby`. To experiment with that code, run `bin/console` for an interactive prompt.
