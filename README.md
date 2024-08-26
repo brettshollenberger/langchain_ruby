@@ -2,9 +2,15 @@
 
 Langchain Ruby differs from LangchainRb in the following ways:
 
-1. Langchain Ruby is at feature parity with Langchain (Python) and Langchain.js
-2. Langchain Ruby wraps the Python library, allowing you to use the complete ecosystem, including observability options like Arize Phoenix, as well as LangGraph, and <what else?>
-3. LangchainRb is a port to the Ruby language, offering better stack tracing, but because Langchain is massive and constantly evolving, it will likely always be more feature limited.
+| Feature/Aspect                                                    | Langchain Ruby | LangchainRb |
+| ----------------------------------------------------------------- | -------------- | ----------- |
+| **Feature Parity with Langchain Python and Javascript libraries** | ✅             | ❌          |
+| **Wraps Python Library**                                          | ✅             | ❌          |
+| **Access to Complete Langchain Ecosystem**                        | ✅             | ❌          |
+| **Support for Observability (e.g., Arize Phoenix)**               | ✅             | ❌          |
+| **Support for LangGraph**                                         | ✅             | ❌          |
+| **Better Stack Tracing in Ruby**                                  | ❌             | ✅          |
+| **Feature Limited Compared to Langchain**                         | ❌             | ✅          |
 
 # Setup Arize Phoenix
 
